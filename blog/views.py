@@ -12,8 +12,7 @@ def index(request):
     return HttpResponse(render(request, 'blog/index.html'))
 
 def posts(request):
-    titles = list(post_list.keys())
-    return HttpResponse(render(request, 'blog/all_posts.html', {'titles': titles, 'post_list': post_list}))
+    return HttpResponse(render(request, 'blog/all_posts.html'))
 
 def post_detail(request, slug):
     #post = slug
