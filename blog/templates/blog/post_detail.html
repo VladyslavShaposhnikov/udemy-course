@@ -1,7 +1,34 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block page_title %}Post{% endblock %}
+{% block page_title %}Post Title{% endblock %}
+
+{% block css_file %}
+    <link rel="stylesheet" href="{% static 'blog/post-detail.css' %}">
+{% endblock %}
 
 {% block content %}
-    
+    <section id="summary">
+        <h2>Post Title</h2>
+        <article>
+            <img src="{% static 'blog/images/img2.jpg' %}" alt="Post Title">
+            <address>By Vladyslav</address>
+            <div>
+                Last updated on <time>July 10th</time>
+            </div>
+        </article>
+    </section>
+
+    <main>
+        <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam voluptatum, ipsam accusantium quas, reiciendis corporis enim optio sit consequuntur culpa blanditiis cum doloribus. Voluptates praesentium aspernatur ipsum molestiae sequi voluptate.
+        </p>
+        <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam voluptatum, ipsam accusantium quas, reiciendis corporis enim optio sit consequuntur culpa blanditiis cum doloribus. Voluptates praesentium aspernatur ipsum molestiae sequi voluptate.
+        </p><p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam voluptatum, ipsam accusantium quas, reiciendis corporis enim optio sit consequuntur culpa blanditiis cum doloribus. Voluptates praesentium aspernatur ipsum molestiae sequi voluptate.
+        </p><p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam voluptatum, ipsam accusantium quas, reiciendis corporis enim optio sit consequuntur culpa blanditiis cum doloribus. Voluptates praesentium aspernatur ipsum molestiae sequi voluptate.
+        </p>
+    </main>
 {% endblock %}
