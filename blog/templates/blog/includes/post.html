@@ -3,11 +3,11 @@
 
 <li>
     <article class="post">
-        <a href="{% url 'post-detail' 'post_slug' %}">
-            <img src="{% static 'blog/images/img2.jpg' %}" alt="Mountaing Hiking">
+        <a href="{% url 'post-detail' post.slug %}">
+            <img src="{% static 'blog/images/'|add:post.image %}" alt={{ post.title }}>
             <div class="post__contant">
-                <h3>Mountain Hiking</h3>
-                <p>There is nothing like the views you get when hiking in the mountains! And I wasn't even prepared for what happend whilst I was enjoying the view!</p>
+                <h3>{{ post.title }}</h3>
+                <p>{{ post.excerpt }}</p>
             </div>
         </a>
     </article>

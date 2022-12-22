@@ -25,17 +25,9 @@
         <h2>My Latest Thoughts</h2>
 
         <ul>
-            <li>
-                <article class="post">
-                    <a href="">
-                        <img src="{% static 'blog/images/img2.jpg' %}" alt="Mountaing Hiking">
-                        <div class="post__contant">
-                            <h3>Mountain Hiking</h3>
-                            <p>There is nothing like the views you get when hiking in the mountains! And I wasn't even prepared for what happend whilst I was enjoying the view!</p>
-                        </div>
-                    </a>
-                </article>
-            </li>
+            {% for post in posts %}
+                {% include 'blog/includes/post.html' %}
+            {% endfor %}
         </ul>
     </section>
 
