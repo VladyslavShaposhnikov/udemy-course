@@ -1,3 +1,6 @@
 from django.contrib import admin
+from .models import Posts, Author, Tag
 
-# Register your models here.
+admin.register(Posts)
+admin.register(Author)
+admin.register(Tag)
