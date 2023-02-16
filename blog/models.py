@@ -27,4 +27,4 @@ class Tag(models.Model):
     caption = models.CharField(max_length=90)
 
     def __str__(self):
-        return f"#{self.caption}"
+        return f"{self.caption}"

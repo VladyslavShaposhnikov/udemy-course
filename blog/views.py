@@ -1,5 +1,6 @@
 from django.shortcuts import render, HttpResponse
 from .models import Posts, Author, Tag
+from django.shortcuts import  get_object_or_404
 
 
 all_posts = Posts.objects.all()
@@ -17,7 +18,20 @@ def posts(request):
     }))
 
 def post_detail(request, slug):
-    identified_post = next(post for post in all_posts if post['slug'] == slug)
+    identified_post = get_object_or_404(Posts, slug=slug)
+    author = Author.objects.get(post=identified_post)
+    tags = Tag.objects.filter(post=identified_post)
+    #identified_post = next(post for post in all_posts if post['slug'] == slug)
     return HttpResponse(render(request, 'blog/post_detail.html', {
         'post': identified_post,
+        'author': author,
+        'tags': tags,
+    }))
+
+def tag_posts(request, tag):
+    tags = get_object_or_404(Tag, caption=tag)
+    all_posts = tags.post.all()
+    return HttpResponse(render(request, 'blog/tag_posts.html', {
+        'tag_posts': tags,
+        'posts': all_posts,
     }))
