@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponse
-from .models import Post, Author, Tag
+from .models import Post
 from django.shortcuts import  get_object_or_404
 
 
@@ -19,9 +19,8 @@ def posts(request):
 
 def post_detail(request, slug):
     identified_post = get_object_or_404(Post, slug=slug)
-    author = Author.objects.get(post=identified_post)
-    tags = Tag.objects.filter(post=identified_post)
-    #identified_post = next(post for post in all_posts if post['slug'] == slug)
+    author = identified_post.author
+    tags = identified_post.tags.all()
     return HttpResponse(render(request, 'blog/post_detail.html', {
         'post': identified_post,
         'author': author,
@@ -29,9 +28,8 @@ def post_detail(request, slug):
     }))
 
 def tag_posts(request, tag):
-    tags = get_object_or_404(Tag, caption=tag)
-    all_posts = tags.post.all()
+    all_posts = Post.objects.filter(tags__caption=tag)
     return HttpResponse(render(request, 'blog/tag_posts.html', {
-        'tag_posts': tags,
         'posts': all_posts,
+        'tag': tag
     }))
