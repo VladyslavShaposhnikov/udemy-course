@@ -16,14 +16,14 @@ class Author(models.Model):
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
 
-class Posts(models.Model):
+class Post(models.Model):
     title = models.CharField(max_length=90)
     excerpt = models.CharField(max_length=150)
     image_name = models.CharField(max_length=90)
     date = models.DateTimeField(auto_now=True)
     slug = models.SlugField(unique=True)
     content = models.TextField(validators=[MinLengthValidator(10)])
-    author = models.ForeignKey(Author, on_delete=models.SET_NULL, related_name='posts')
+    author = models.ForeignKey(Author, on_delete=models.SET_NULL, null=True, related_name='posts')
     tags = models.ManyToManyField(Tag)
     
     def __str__(self):

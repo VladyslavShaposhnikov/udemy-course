@@ -1,9 +1,9 @@
 from django.shortcuts import render, HttpResponse
-from .models import Posts, Author, Tag
+from .models import Post, Author, Tag
 from django.shortcuts import  get_object_or_404
 
 
-all_posts = Posts.objects.all()
+all_posts = Post.objects.all()
 
 def index(request):
     sorted_posts = all_posts.order_by('date')
@@ -18,7 +18,7 @@ def posts(request):
     }))
 
 def post_detail(request, slug):
-    identified_post = get_object_or_404(Posts, slug=slug)
+    identified_post = get_object_or_404(Post, slug=slug)
     author = Author.objects.get(post=identified_post)
     tags = Tag.objects.filter(post=identified_post)
     #identified_post = next(post for post in all_posts if post['slug'] == slug)
