@@ -1,5 +1,5 @@
 from django.db import models
-from datetime import datetime
+from django.core.validators import MinLengthValidator
 
 
 class Posts(models.Model):
@@ -7,8 +7,8 @@ class Posts(models.Model):
     excerpt = models.CharField(max_length=150)
     image_name = models.CharField(max_length=90)
     date = models.DateTimeField(auto_now=True)
-    slug = models.SlugField()
-    content = models.TextField()
+    slug = models.SlugField(unique=True)
+    content = models.TextField(validators=[MinLengthValidator(10)])
     
     def __str__(self):
         return f"{self.title}, {self.date}"
