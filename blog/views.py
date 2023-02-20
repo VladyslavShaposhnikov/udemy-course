@@ -1,18 +1,15 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, get_object_or_404
 from .models import Post
-from django.shortcuts import  get_object_or_404
 
-
-all_posts = Post.objects.all()
 
 def index(request):
-    sorted_posts = all_posts.order_by('date')
-    latest_posts = sorted_posts[:3]
+    latest_posts = Post.objects.all().order_by('-date')[:3]
     return HttpResponse(render(request, 'blog/index.html', context={
         'posts': latest_posts
     }))
 
 def posts(request):
+    all_posts = Post.objects.all().order_by("-date")
     return HttpResponse(render(request, 'blog/all_posts.html', {
         'all_posts': all_posts,
     }))
