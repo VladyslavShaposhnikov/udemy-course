@@ -1,5 +1,7 @@
-from .models import Post
 from django.views.generic import ListView, DetailView
+
+from .models import Post
+from .forms import CommentForm
 
 
 class IndexView(ListView):
@@ -13,7 +15,7 @@ class IndexView(ListView):
         data = queryset[:3]
         return data
 
-class PostsView(ListView):
+class PostsListView(ListView):
     template_name = "blog/all_posts.html"
     model = Post
     ordering = ["-date"]
@@ -26,6 +28,7 @@ class PostDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["tags"] = self.object.tags.all()
+        context["comment_form"] = CommentForm()
         return context
 
 class TagPostsView(ListView):
