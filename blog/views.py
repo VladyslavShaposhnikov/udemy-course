@@ -1,32 +1,42 @@
-from django.shortcuts import render, HttpResponse, get_object_or_404
 from .models import Post
+from django.views.generic import ListView, DetailView
 
 
-def index(request):
-    latest_posts = Post.objects.all().order_by('-date')[:3]
-    return HttpResponse(render(request, 'blog/index.html', context={
-        'posts': latest_posts
-    }))
+class IndexView(ListView):
+    template_name = "blog/index.html"
+    model = Post
+    ordering = ["-date"]
+    context_object_name = "posts"
 
-def posts(request):
-    all_posts = Post.objects.all().order_by("-date")
-    return HttpResponse(render(request, 'blog/all_posts.html', {
-        'all_posts': all_posts,
-    }))
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        data = queryset[:3]
+        return data
 
-def post_detail(request, slug):
-    identified_post = get_object_or_404(Post, slug=slug)
-    author = identified_post.author
-    tags = identified_post.tags.all()
-    return HttpResponse(render(request, 'blog/post_detail.html', {
-        'post': identified_post,
-        'author': author,
-        'tags': tags,
-    }))
+class PostsView(ListView):
+    template_name = "blog/all_posts.html"
+    model = Post
+    ordering = ["-date"]
+    context_object_name = "all_posts"
 
-def tag_posts(request, tag):
-    all_posts = Post.objects.filter(tags__caption=tag)
-    return HttpResponse(render(request, 'blog/tag_posts.html', {
-        'posts': all_posts,
-        'tag': tag
-    }))
+class PostDetailView(DetailView):
+    template_name = "blog/post_detail.html"
+    model = Post
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["tags"] = self.object.tags.all()
+        return context
+
+class TagPostsView(ListView):
+    template_name = "blog/tag_posts.html"
+    model = Post
+    context_object_name = "posts"
+
+    def get_queryset(self):
+        return Post.objects.filter(tags__caption=self.kwargs['tag'])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["tag"] = self.kwargs['tag']
+        return context
