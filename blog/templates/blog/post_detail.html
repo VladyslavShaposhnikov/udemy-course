@@ -41,6 +41,21 @@
         {{ post.content|linebreaks }}
     </main>
 
+    <section id="comments">
+        <ul>
+            {% for comment in comments %}
+                <li>
+                    <h2>
+                        {{ comment.user_name }}
+                        <p>
+                            {{ comment.text|linebreaks }}
+                        </p>
+                    </h2>
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+
     <section id="comment-form">
         <h2>Your comment</h2>
         <form action="{% url 'post-detail' post.slug %}" method="post">
