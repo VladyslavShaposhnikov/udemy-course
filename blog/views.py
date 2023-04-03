@@ -70,3 +70,32 @@ class TagPostsView(ListView):
         context = super().get_context_data(**kwargs)
         context["tag"] = self.kwargs['tag']
         return context
+
+class ReadLaterView(View):
+    def get(self, request):
+        stored_posts = request.session.get("stored_posts")
+
+        context = {}
+
+        if stored_posts is None or len(stored_posts) == 0:
+            context["posts"] = []
+            context["has_posts"] = False
+        else:
+            context["posts"] = Post.objects.filter(id__in=stored_posts)
+            context["has_posts"] = True
+        
+        return render(request, "blog/stored_posts.html", context)
+
+    def post(self, request):
+        stored_posts = request.session.get("stored_posts")
+
+        if stored_posts is None:
+            stored_posts = []
+
+        post_id = int(request.POST["post_id"])
+
+        if post_id not in stored_posts:
+            stored_posts.append(post_id)
+            request.session["stored_posts"] = stored_posts
+
+        return HttpResponseRedirect("/")
